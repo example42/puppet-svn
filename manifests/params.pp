@@ -17,15 +17,15 @@ class svn::params {
   ### Application related parameters
 
   $package = $::operatingsystem ? {
-    default => 'svn',
+    default => 'subversion',
   }
 
   $config_dir = $::operatingsystem ? {
-    default => '/etc/svn',
+    default => '/etc/subversion',
   }
 
   $config_file = $::operatingsystem ? {
-    default => '/etc/svn/svn.conf',
+    default => '/etc/subversion/config.conf',
   }
 
   $config_file_mode = $::operatingsystem ? {
