@@ -1,0 +1,16 @@
+#/bin/bash
+echo "This command runs a svn sync on Puppet defined local directories"
+echo
+echo "Choose SVN repo to sync:"
+cd <%= @basedir %>
+ls -1 svn_reposync_* | cut -c 14-
+echo
+echo "Enter a project to sync. TO exit without any action , just hit ENTER"
+read svn_project
+svn_project=${svn_project:=none}
+
+if [ "x$svn_project" == "xnone" ] ; then
+  exit
+else
+  <%= @basedir %>/svn_reposync_${svn_project}
+fi

@@ -1,0 +1,18 @@
+#!/bin/bash
+export PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+<%= @pre_command %>
+
+action=<%= @action %>
+if [ -d <%= @destination_dir %> ] ; then
+  if [ "x${action}" == "xcheckout" ] ; then
+    cd <%= @destination_dir %>
+    svn update 
+  else
+    svn export --force <%= @source_url %> <%= @destination_dir %>
+  fi
+else
+  svn $action <%= @source_url %> <%= @destination_dir %> <%= @extra_options %>
+fi
+
+<%= @post_command %>
