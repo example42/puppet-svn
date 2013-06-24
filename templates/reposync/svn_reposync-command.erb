@@ -7,7 +7,7 @@ action=<%= @action %>
 if [ -d <%= @destination_dir %> ] ; then
   if [ "x${action}" == "xcheckout" ] ; then
     cd <%= @destination_dir %>
-    svn update 
+    svn update <%= @update_extra_options %>
   else
     svn export --force <%= @source_url %> <%= @destination_dir %>
   fi
