@@ -25,6 +25,9 @@
 # [*extra_options*]
 #   Optional extra options to add to svn command. Default: ''.
 #
+# [*update_extra_options*]
+#   Optional extra options to add to svn update command. Default: ''.
+#
 # [*autorun*]
 #   Define if to automatically execute the svn_reposync script when
 #   Puppet runs. Default: true.
@@ -88,18 +91,19 @@
 define svn::reposync (
   $source_url,
   $destination_dir,
-  $action          = 'export',
-  $extra_options   = '',
-  $autorun         = true,
-  $creates         = $destination_dir,
-  $pre_command     = '',
-  $post_command    = '',
-  $basedir         = '/usr/local/sbin',
-  $cron            = '',
-  $owner           = 'root',
-  $group           = 'root',
-  $mode            = '0755',
-  $ensure          = 'present' ) {
+  $action                 = 'export',
+  $extra_options          = '',
+  $update_extra_options   = '',
+  $autorun                = true,
+  $creates                = $destination_dir,
+  $pre_command            = '',
+  $post_command           = '',
+  $basedir                = '/usr/local/sbin',
+  $cron                   = '',
+  $owner                  = 'root',
+  $group                  = 'root',
+  $mode                   = '0755',
+  $ensure                 = 'present' ) {
 
   if ! defined(File['svn_reposync']) {
     file { 'svn_reposync':
