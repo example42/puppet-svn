@@ -7,24 +7,24 @@ describe 'svn' do
   let(:facts) { { :ipaddress => '10.42.42.42' } }
 
   describe 'Test minimal installation' do
-    it { should contain_package('svn').with_ensure('present') }
+    it { should contain_package('subversion').with_ensure('present') }
     it { should contain_file('svn.conf').with_ensure('present') }
   end
 
   describe 'Test installation of a specific version' do
     let(:params) { {:version => '1.0.42' } }
-    it { should contain_package('svn').with_ensure('1.0.42') }
+    it { should contain_package('subversion').with_ensure('1.0.42') }
   end
 
   describe 'Test decommissioning - absent' do
     let(:params) { {:absent => true } }
-    it 'should remove Package[svn]' do should contain_package('svn').with_ensure('absent') end 
+    it 'should remove Package[subversion]' do should contain_package('subversion').with_ensure('absent') end 
     it 'should remove svn configuration file' do should contain_file('svn.conf').with_ensure('absent') end
   end
 
   describe 'Test noops mode' do
     let(:params) { {:noops => true} }
-    it { should contain_package('svn').with_noop('true') }
+    it { should contain_package('subversion').with_noop('true') }
     it { should contain_file('svn.conf').with_noop('true') }
   end
 
