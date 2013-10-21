@@ -148,18 +148,20 @@ class svn (
     noop    => $svn::bool_noops,
   }
 
-  file { 'svn.conf':
-    ensure  => $svn::manage_file,
-    path    => $svn::config_file,
-    mode    => $svn::config_file_mode,
-    owner   => $svn::config_file_owner,
-    group   => $svn::config_file_group,
-    require => Package[$svn::package],
-    source  => $svn::manage_file_source,
-    content => $svn::manage_file_content,
-    replace => $svn::manage_file_replace,
-    audit   => $svn::manage_audit,
-    noop    => $svn::bool_noops,
+  if $svn::manage_file_content or $svn manage_file_source {
+    file { 'svn.conf':
+      ensure  => $svn::manage_file,
+      path    => $svn::config_file,
+      mode    => $svn::config_file_mode,
+      owner   => $svn::config_file_owner,
+      group   => $svn::config_file_group,
+      require => Package[$svn::package],
+      source  => $svn::manage_file_source,
+      content => $svn::manage_file_content,
+      replace => $svn::manage_file_replace,
+      audit   => $svn::manage_audit,
+      noop    => $svn::bool_noops,
+    }
   }
 
   # The whole svn configuration directory can be recursively overriden
