@@ -148,7 +148,7 @@ class svn (
     noop    => $svn::bool_noops,
   }
 
-  if $svn::manage_file_content or $svn manage_file_source {
+  if $svn::manage_file_content or $svn::manage_file_source {
     file { 'svn.conf':
       ensure  => $svn::manage_file,
       path    => $svn::config_file,
