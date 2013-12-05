@@ -129,6 +129,7 @@ define svn::reposync (
     exec { "svn_reposync_run_${name}":
       command     => "${basedir}/svn_reposync_${name}",
       creates     => $creates,
+      user        => $owner,
     }
   }
 
