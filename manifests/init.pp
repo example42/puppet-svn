@@ -112,78 +112,76 @@ class svn (
   $bool_noops=any2bool($noops)
 
   ### Definition of some variables used in the module
-  $manage_package = $svn::bool_absent ? {
+  $manage_package = $bool_absent ? {
     true  => 'absent',
     false => $svn::version,
   }
 
-  $manage_file = $svn::bool_absent ? {
+  $manage_file = $bool_absent ? {
     true    => 'absent',
     default => 'present',
   }
 
-  $manage_audit = $svn::bool_audit_only ? {
+  $manage_audit = $bool_audit_only ? {
     true  => 'all',
     false => undef,
   }
 
-  $manage_file_replace = $svn::bool_audit_only ? {
+  $manage_file_replace = $bool_audit_only ? {
     true  => false,
     false => true,
   }
 
-  $manage_file_source = $svn::source ? {
+  $manage_file_source = $source ? {
     ''        => undef,
-    default   => $svn::source,
+    default   => $source,
   }
 
-  $manage_file_content = $svn::template ? {
+  $manage_file_content = $template ? {
     ''        => undef,
-    default   => template($svn::template),
+    default   => template($template),
   }
 
   ### Managed resources
-  package { $svn::package:
-    ensure  => $svn::manage_package,
-    noop    => $svn::bool_noops,
+  package { $package:
+    ensure => $manage_package,
+    noop   => $bool_noops,
   }
 
-  if $svn::manage_file_content or $svn::manage_file_source {
-    file { 'svn.conf':
-      ensure  => $svn::manage_file,
-      path    => $svn::config_file,
-      mode    => $svn::config_file_mode,
-      owner   => $svn::config_file_owner,
-      group   => $svn::config_file_group,
-      require => Package[$svn::package],
-      source  => $svn::manage_file_source,
-      content => $svn::manage_file_content,
-      replace => $svn::manage_file_replace,
-      audit   => $svn::manage_audit,
-      noop    => $svn::bool_noops,
-    }
+  file { 'svn.conf':
+    ensure  => $manage_file,
+    path    => $config_file,
+    mode    => $config_file_mode,
+    owner   => $config_file_owner,
+    group   => $config_file_group,
+    require => Package[$package],
+    source  => $manage_file_source,
+    content => $manage_file_content,
+    replace => $manage_file_replace,
+    audit   => $manage_audit,
+    noop    => $bool_noops,
   }
 
   # The whole svn configuration directory can be recursively overriden
-  if $svn::source_dir {
+  if $source_dir {
     file { 'svn.dir':
       ensure  => directory,
-      path    => $svn::config_dir,
-      require => Package[$svn::package],
-      source  => $svn::source_dir,
+      path    => $config_dir,
+      require => Package[$package],
+      source  => $source_dir,
       recurse => true,
-      purge   => $svn::bool_source_dir_purge,
-      force   => $svn::bool_source_dir_purge,
-      replace => $svn::manage_file_replace,
-      audit   => $svn::manage_audit,
-      noop    => $svn::bool_noops,
+      purge   => $bool_source_dir_purge,
+      force   => $bool_source_dir_purge,
+      replace => $manage_file_replace,
+      audit   => $manage_audit,
+      noop    => $bool_noops,
     }
   }
 
 
   ### Include custom class if $my_class is set
-  if $svn::my_class {
-    include $svn::my_class
+  if $my_class {
+    include $my_class
   }
 
 }

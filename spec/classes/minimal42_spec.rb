@@ -31,12 +31,10 @@ describe 'svn' do
   describe 'Test customizations - template' do
     let(:params) { {:template => "svn/spec.erb" , :options => { 'opt_a' => 'value_a' } } }
     it 'should generate a valid template' do
-      content = catalogue.resource('file', 'svn.conf').send(:parameters)[:content]
-      content.should match "fqdn: rspec.example42.com"
+      should contain_file('svn.conf').with_content(/fqdn: rspec.example42.com/)
     end
     it 'should generate a template that uses custom options' do
-      content = catalogue.resource('file', 'svn.conf').send(:parameters)[:content]
-      content.should match "value_a"
+      should contain_file('svn.conf').with_content(/value_a/)
     end
   end
 
