@@ -164,17 +164,20 @@ class svn (
 
   # The whole svn configuration directory can be recursively overriden
   if $source_dir {
-    file { 'svn.dir':
-      ensure  => directory,
-      path    => $config_dir,
-      require => Package[$package],
-      source  => $source_dir,
-      recurse => true,
-      purge   => $bool_source_dir_purge,
-      force   => $bool_source_dir_purge,
-      replace => $manage_file_replace,
-      audit   => $manage_audit,
-      noop    => $bool_noops,
+    # By default value of $source_dir is ''
+    if $source_dir != '' {
+      file { 'svn.dir':
+        ensure  => directory,
+        path    => $config_dir,
+        require => Package[$package],
+        source  => $source_dir,
+        recurse => true,
+        purge   => $bool_source_dir_purge,
+        force   => $bool_source_dir_purge,
+        replace => $manage_file_replace,
+        audit   => $manage_audit,
+        noop    => $bool_noops,
+      }
     }
   }
 
